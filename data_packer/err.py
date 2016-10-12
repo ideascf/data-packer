@@ -26,6 +26,13 @@ class DataPackerSrcKeyNotFoundError(DataPackerError):
     pass
 
 
+class DataPackerLackFieldError(DataPackerError):
+    """
+    缺少字段错误,用于SelectorField
+    """
+    pass
+
+
 class DataPackerCheckError(DataPackerError):
     """
     字段校验失败

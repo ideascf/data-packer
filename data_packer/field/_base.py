@@ -1,14 +1,23 @@
 # coding=utf-8
-from checker import BaseChecker
-from getter import BaseGetter, DictGetter
-from setter import BaseSetter, DictSetter
-
-from data_packer.converter import BaseConverter
+from ..checker import BaseChecker
+from ..getter import BaseGetter, DictGetter
+from ..setter import BaseSetter, DictSetter
+from ..converter import BaseConverter
 from .. import err, constant
 
 
 class _IField(object):
     def run(self, src, dst):
+        """
+
+        :param src:
+        :type src:
+        :param dst:
+        :type dst:
+        :return:
+        :rtype: bool
+        :raise: err.DataPackerError
+        """
         raise NotImplementedError('Implemented by youself')
 
 class BaseField(_IField):
@@ -40,7 +49,7 @@ class BaseField(_IField):
         """:type: BaseGetter"""
         self._checker = self._valid_er(checker, BaseChecker, None, 'param(checker) must be callable or None.')
         """:type: BaseChecker"""
-        self._converter = self._valid_er(converter, None, BaseConverter, 'param(converter) must be callable or None.')
+        self._converter = self._valid_er(converter, BaseConverter, None, 'param(converter) must be callable or None.')
         """:type: BaseConverter"""
         self._setter = self._valid_er(setter, BaseSetter, DictSetter(), 'param(setter) must be callable or None.')
         """:type: BaseSetter"""
@@ -57,6 +66,8 @@ class BaseField(_IField):
         :param src: 传入数据容器,默认为字典
         :param dst: 传出数据容器,默认为字典
         :return:
+        :rtype: bool
+        :raise: err.DataPackerError
         """
 
 

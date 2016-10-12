@@ -1,18 +1,24 @@
 # 简介
-json_getter是一个字段提取工具包。
+data-packer是一个字段打包工具。
 
-- 服务提供端：预定义一系列的Getter对象，用于验证和转换服务请求端传入的json数据为内部可用的字典。
-- 服务请求端：按照服务提供方要求的数据格式创建好Getter对象后，将请求的原始字典快捷方便的转为服务提供方需要的格式。
+- 服务提供端：预定义一系列的DataPacker对象，用于验证和转换 前段传入的数据为内部可用的数据容器。
+- 服务请求端：按照服务提供方要求的数据格式创建好DataPacker对象后，将请求的原始字典快捷方便的转为服务提供方需要的格式。
 
 # 定义
-* json_getter不是jsonschema，即不是一个json数据的验证器
-* json_getter是字段提取的工具包，即完成从源字典中以一定规则获取需要的字段，并填充到目的字典。
+* data-packer是字段提取的工具包，即完成从源字典中以一定规则获取需要的字段，并填充到目的字典。
 
 # 组成
-* Field类，用来定义字典中的各个字段。 如： MustField, OptionalField, PlaceholderField, DefaultField等
-* Getter类，用于使用预定义的Field集合去完成数据的转换提取。
-* Checker类，预定义一系列常用的Checker。 如：EmailChecker，MobileChecker等
+* field宝，用来定义常见的字段类型。 如： 
+  - 必填字段(Required) 
+  - 可选字段(Default)
+  - 缺省值字段(Default)
+  - 占位字段(Placeholder)
+  - 多选一字段(Selector)
+* getter包: 字段获取类, 用于从传入数据容器中获取字段值
+* checker包: 定义字段校验类, 用于校验传入容器中的字段值是否合法
+* converter包: 定义字段值转换类, 用于按需转换传入数据容器中的字段值
+* setter包: 定义字段设置类, 用于将转换后的字段值设置到传出容器中
 
 # 应用场景
 1. 微信支付业务中，封装到微信的请求数据，解析微信的返回数据。
-2. web业务中，解析并转换浏览器传入的请求数据。
+2. web业务中，解析并转换web端传入的请求数据。

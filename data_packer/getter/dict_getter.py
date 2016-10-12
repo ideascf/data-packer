@@ -15,6 +15,6 @@ class DictGetter(BaseGetter):
         """
 
         if src_name not in src:
-            raise err.DataPackerSrcKeyNotFoundError('key(%s) Not found in src!')
+            raise err.DataPackerSrcKeyNotFoundError('key({}) Not found in src!'.format(src_name))
 
         return src[src_name]
