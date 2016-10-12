@@ -136,7 +136,8 @@ class BaseField(_IField):
                 else:
                     raise err.DataPackerCheckError(
                         '''
-                        Field({}) check FAILED!
+                        check FAILED!!!
+                        Field({})
                         checker({})
                         src_name({})
                         dst_name({})
@@ -145,8 +146,8 @@ class BaseField(_IField):
                             self, ck, self.src_name, self.dst_name, value
                         )
                     )
-        except err.DataPackerError:
-            raise
+        except err.DataPackerError as e:
+            raise e
         except Exception as e:
             raise err.DataPackerCheckError(str(e))
 

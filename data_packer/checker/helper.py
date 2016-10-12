@@ -13,6 +13,7 @@ class ReChecker(BaseChecker):
         super(ReChecker, self).__init__()
 
         self.pat = re.compile(pattern, flags)
+        self._pattern_str = pattern
 
     def verify(self, src_name, dst_name, value):
         return bool(self.pat.match(value))
