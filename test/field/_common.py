@@ -13,4 +13,4 @@ def run(fields, src, dst=None):
     dp = DataPacker(fields)
     dp.run(src, dst)
 
-    return dst
+    return dst.raw_data()
