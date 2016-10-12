@@ -1,7 +1,8 @@
 # coding=utf-8
-from ._base import _IField
+from ._base import _IField, BaseField
 from .single import OptionalField
-from .. import err
+from ..container import BaseContainer
+from .. import err, constant
 
 class SelectorField(_IField):
     valid_field_cls = (OptionalField,)
@@ -56,18 +57,28 @@ class SelectorField(_IField):
         return True
 
 
-class CompositedField(_IField):
-    def __init__(self, fields):
+class CompositedField(BaseField):
+    def __init__(self, fields, src_container_cls, dst_sub_container, src_name, dst_name, overwrite=constant.OverwriteMode.OVERWRITE):
         """
 
-        :param fields: field对象的list,只要其中任何一个field匹配即可
-        :param must_one: 是否至少包含fields中的一个字段
-        :type fields: list[BaseField]
-        :type must_one: bool
-        :return:
+        :param fields:
+        :type fields:
+        :param src_container_cls:
+        :type src_container_cls: type(BaseContainer)
+        :param dst_sub_container:
+        :type dst_sub_container: BaseContainer
+        :param src_name:
+        :type src_name: str
+        :param dst_name:
+        :type dst_name: str
+        :param overwrite:
+        :type overwrite:
         """
 
+        super(CompositedField, self).__init__(src_name, dst_name, overwrite, None, None)
         self.fields = fields
+        self.src_container_cls = src_container_cls
+        self.dst_sub_container = dst_sub_container
 
     def __str__(self):
         return '{cls_name}: {property}'.format(
@@ -75,8 +86,11 @@ class CompositedField(_IField):
             property=self.__dict__
         )
 
-    def run(self, src, dst):
-        for field in self.fields:
-            field.run(src, dst)
+    def _get_value(self, src):
+        src_raw_data = super(CompositedField, self)._get_value(src)
+        src_sub_container = self.src_container_cls(src_raw_data)
 
-        return True
+        for field in self.fields:
+            field.run(src_sub_container, self.dst_sub_container)
+
+        return self.dst_sub_container.raw_data()

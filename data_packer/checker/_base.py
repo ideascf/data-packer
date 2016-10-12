@@ -13,7 +13,7 @@ class BaseChecker(object):
         :type value:
         :return: 通过返回True, 否则返回False或抛出异常
         :rtype: bool
-        :raise: err.JsonGetterError
+        :raise: err.DataPackerCheckError
         """
 
-        raise NotImplementedError('Implemented by youself')
+        raise NotImplementedError('Implemented by yourself')

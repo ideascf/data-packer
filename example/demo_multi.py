@@ -7,10 +7,11 @@ from data_packer import OptionalField
 from data_packer import SelectorField, CompositedField
 from data_packer import DataPacker, OverwriteMode
 from data_packer import DataPackerError, DataPackerProgramError
+from data_packer import DictContainer
 from common import demo_run
 
 
-#### 多选一字段  ####
+#### 多选字段  ####
 # 最多选一个字段
 fields = [
     SelectorField(
@@ -89,3 +90,34 @@ try:
     )
 except DataPackerProgramError as e:
     print e
+
+
+#############################################
+# 组合字段
+fields = [
+    OptionalField(src_name='a', dst_name='a'),
+    OptionalField(src_name='b', dst_name='b'),
+    OptionalField(src_name='c', dst_name='c'),
+
+    CompositedField(
+        [
+            OptionalField('1', 'e.1'),
+            OptionalField('a', 'e.a'),
+            CompositedField(
+                [
+                    OptionalField('a', 'e.2.a'),
+                    OptionalField('b', 'e.2.b'),
+                ],
+                DictContainer,
+                DictContainer({}),
+                '2',
+                '2'
+            )
+        ],
+        DictContainer,
+        DictContainer({}),
+        'e',
+        'e'
+    )
+]
+demo_run(fields, '组合字段')

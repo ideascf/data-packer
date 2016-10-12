@@ -1,5 +1,5 @@
 # coding=utf-8
-from data_packer import DataPackerError, DataPacker
+from data_packer import DataPackerError, DataPacker, DictContainer
 
 
 g_src = {
@@ -18,13 +18,20 @@ g_src = {
         }
     }
 }
+g_src = DictContainer(g_src)
 
 
 def demo_run(fields, msg, dst=None):
     print ''
     print msg
 
-    dst = {} if dst is None else dst
+    if dst is None:
+        dst = DictContainer({})
+    elif isinstance(dst, dict):
+        dst = DictContainer(dst)
+    else:
+        raise TypeError('dst Must be dict or DictContainer')
+
     dp = DataPacker(fields)
     try:
         dp.run(g_src, dst)

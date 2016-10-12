@@ -1,8 +1,7 @@
 # coding=utf-8
 from ..checker import BaseChecker
-from ..getter import BaseGetter, DictGetter
-from ..setter import BaseSetter, DictSetter
 from ..converter import BaseConverter
+from ..container import BaseContainer
 from .. import err, constant
 
 
@@ -18,41 +17,33 @@ class _IField(object):
         :rtype: bool
         :raise: err.DataPackerError
         """
-        raise NotImplementedError('Implemented by youself')
+        raise NotImplementedError('Implemented by yourself')
 
 class BaseField(_IField):
     def __init__(self, src_name, dst_name, overwrite=constant.OverwriteMode.OVERWRITE,
-                 getter=None, checker=None, converter=None, setter=None):
+                 checker=None, converter=None):
         """
 
         :param src_name: 该字段在传入数据容器中的名称
         :param dst_name: 该字段在传出数据容器中的名称
         :param overwrite: 是否覆盖已经存在的传出数据容器中的值
-        :param getter: 字段的获取器，从传入容器中获取数据
         :param checker: 字段的校验器，校验该字段的值是否合法
         :param converter: 字段转换器，按需转换该字段的值
-        :param setter: 字段的设置器，将转换后的该字段的值设置到传出数据容器中
         :type src_name: str
         :type dst_name: str
         :type overwrite: constant.OverwriteMode
-        :type getter: BaseGetter
-        :type checker: BaseChecker
-        :type converter: BaseConverter
-        :type setter: BaseSetter
+        :type checker: BaseChecker | None
+        :type converter: BaseConverter | None
         """
 
         self.src_name = src_name
         self.dst_name = dst_name
         self._overwrite = overwrite
 
-        self._getter = self._valid_er(getter, BaseGetter, DictGetter(), 'param(getter) must be callable or None.')
-        """:type: BaseGetter"""
         self._checker = self._valid_er(checker, BaseChecker, None, 'param(checker) must be callable or None.')
         """:type: BaseChecker"""
         self._converter = self._valid_er(converter, BaseConverter, None, 'param(converter) must be callable or None.')
         """:type: BaseConverter"""
-        self._setter = self._valid_er(setter, BaseSetter, DictSetter(), 'param(setter) must be callable or None.')
-        """:type: BaseSetter"""
 
     def __str__(self):
         return '{cls_name}: {property}'.format(
@@ -65,11 +56,18 @@ class BaseField(_IField):
 
         :param src: 传入数据容器,默认为字典
         :param dst: 传出数据容器,默认为字典
+        :type src: BaseContainer
+        :type dst: BaseContainer
         :return:
         :rtype: bool
         :raise: err.DataPackerError
         """
 
+        if not all([
+            isinstance(src, BaseContainer),
+            isinstance(dst, BaseContainer),
+        ]):
+            raise err.DataPackerProgramError('src and dst must be BaseContainer')
 
         try:
             value = self._get_value(src)
@@ -78,6 +76,11 @@ class BaseField(_IField):
             self._set_value(value, dst)
         except err._DataPackerInterruptError:  # 内部流程中断异常，本次get操作失败
             return True
+        except Exception as e:
+            print e
+            print 'src: ', src
+            print 'dst: ', dst
+            print 'field: ', self
         else:
             return True
 
@@ -85,10 +88,14 @@ class BaseField(_IField):
         """
         从传入数据容器中获取value
         :param src:
+        :type src: BaseContainer
         :return:
         """
 
-        return self._getter.do(src, self.src_name)
+        try:
+            return src[self.src_name]
+        except KeyError:
+            raise err.DataPackerSrcKeyNotFoundError('key({}) Not found in src!'.format(self.src_name))
 
     def _set_value(self, value, dst):
         """
@@ -96,11 +103,17 @@ class BaseField(_IField):
         :param value:
         :param dst:
         :type value:
-        :type dst: dict
+        :type dst: BaseContainer
         :return:
         """
 
-        return self._setter.do(dst, self.dst_name, value, self._overwrite)
+        if self.dst_name in dst:
+            if self._overwrite == constant.OverwriteMode.IGNORE:
+                return
+            elif self._overwrite == constant.OverwriteMode.RAISE:
+                raise err.DataPackerDstKeyDupError('key({}) already exist in dst'.format(self.dst_name))
+
+        dst[self.dst_name] = value
 
     #### 动作函数 ####
     def _do_check(self, value):
@@ -109,7 +122,7 @@ class BaseField(_IField):
         :param value:
         :return:
         :rtype: bool
-        :raise: err.JsonGetterCheckError
+        :raise: err.DataPackerCheckError
         """
 
         if self._checker is None:  # No checker
@@ -148,7 +161,7 @@ class BaseField(_IField):
 
     def _valid_er(self, er, cls, default, errmsg):
         """
-        校验各种er, getter, checker, converter, setter
+        校验各种er, checker, converter
         :param er:
         :type er:
         :param cls: 该er的基类

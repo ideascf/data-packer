@@ -14,4 +14,4 @@ class BaseConverter(object):
         :rtype:
         """
 
-        raise NotImplementedError('Implemented by youself')
+        raise NotImplementedError('Implemented by yourself')

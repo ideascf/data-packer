@@ -3,10 +3,9 @@ from .field._base import _IField
 from .field.single import DefaultField, OptionalField, PlaceholderField, RequiredField
 from .field.multi import SelectorField, CompositedField
 
-from .getter import BaseGetter, DictGetter
 from .checker import BaseChecker
 from .converter import BaseConverter
-from .setter import BaseSetter, DictSetter
+from .container import DictContainer
 from .constant import *
 from .err import *
 
