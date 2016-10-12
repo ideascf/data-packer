@@ -32,18 +32,24 @@ class BaseField(_IField):
         :type src_name: str
         :type dst_name: str
         :type overwrite: constant.OverwriteMode
-        :type checker: BaseChecker | None
-        :type converter: BaseConverter | None
+        :type checker: BaseChecker | list[BaseChecker] | None
+        :type converter: BaseConverter | list[BaseConverter] | None
         """
 
         self.src_name = src_name
         self.dst_name = dst_name
         self._overwrite = overwrite
 
-        self._checker = self._valid_er(checker, BaseChecker, None, 'param(checker) must be callable or None.')
-        """:type: BaseChecker"""
-        self._converter = self._valid_er(converter, BaseConverter, None, 'param(converter) must be callable or None.')
-        """:type: BaseConverter"""
+        self._checker_list = self._valid_er(
+            checker, BaseChecker, None,
+            'param(checker) must be BaseChecker or list[BaseChecker] or None.'
+        )
+        """:type: list[BaseChecker]"""
+        self._converter_list = self._valid_er(
+            converter, BaseConverter, None,
+            'param(converter) must be BaseConverter or list[BaseConverter] or None.'
+        )
+        """:type: list[BaseConverter]"""
 
     def __str__(self):
         return '{cls_name}: {property}'.format(
@@ -120,10 +126,14 @@ class BaseField(_IField):
         :raise: err.DataPackerCheckError
         """
 
-        if self._checker is None:  # No checker
+        if self._checker_list is None:  # No checker
             return True
 
-        if self._checker.verify(self.src_name, self.dst_name, value):  # pass
+
+        if all(
+            checker.verify(self.src_name, self.dst_name, value)
+            for checker in self._checker_list
+        ):
             return True
         else:
             raise err.DataPackerCheckError(
@@ -139,10 +149,13 @@ class BaseField(_IField):
         :return:
         """
 
-        if self._converter is None:
+        if self._converter_list is None:
             return value
         else:
-            return self._converter.convert(self.src_name, self.dst_name, value)
+            for cvt in self._converter_list:
+                value = cvt.convert(self.src_name, self.dst_name, value)
+
+            return value
 
     def _do_interrupt(self, *args):
         """
@@ -172,7 +185,14 @@ class BaseField(_IField):
         if er is None:
             er = default
 
-        if er is not None and not isinstance(er, cls):
-            raise err.DataPackerCheckError(errmsg)
+        if er is not None:
+            if not isinstance(er, list):
+                er = [er]
+
+            if not all([
+                isinstance(each, cls)
+                for each in er
+            ]):
+                raise err.DataPackerProgramError(errmsg)
         else:
             return er
