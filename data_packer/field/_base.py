@@ -128,7 +128,7 @@ class BaseField(_IField):
         if self._checker is None:  # No checker
             return True
 
-        if self._checker.do(self.src_name, self.dst_name, value):  # pass
+        if self._checker.verify(self.src_name, self.dst_name, value):  # pass
             return True
         else:
             raise err.DataPackerCheckError(
@@ -147,7 +147,7 @@ class BaseField(_IField):
         if self._converter is None:
             return value
         else:
-            return self._converter.do(self.src_name, self.dst_name, value)
+            return self._converter.convert(self.src_name, self.dst_name, value)
 
     def _do_interrupt(self, *args):
         """

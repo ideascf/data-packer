@@ -1,7 +1,7 @@
 # coding=utf-8
 
 class BaseConverter(object):
-    def do(self, src_name, dst_name, value):
+    def convert(self, src_name, dst_name, value):
         """
         按需转换该字段的值
         :param src_name: 字段在传入容器中的名称

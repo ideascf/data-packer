@@ -2,7 +2,7 @@
 from .. import err
 
 class BaseChecker(object):
-    def do(self, src_name, dst_name, value):
+    def verify(self, src_name, dst_name, value):
         """
         检查该字段的值是否合法
         :param src_name: 字段在传入容器中的名称
