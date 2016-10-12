@@ -2,6 +2,13 @@
 from .. import err
 
 class BaseChecker(object):
+
+    def __str__(self):
+        return 'cls_name: {cls_name}property: {property}'.format(
+            cls_name=self.__class__,
+            property=self.__dict__
+        )
+
     def verify(self, src_name, dst_name, value):
         """
         检查该字段的值是否合法
@@ -17,3 +24,4 @@ class BaseChecker(object):
         """
 
         raise NotImplementedError('Implemented by yourself')
+
