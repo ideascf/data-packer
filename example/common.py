@@ -16,7 +16,10 @@ g_src = {
             'a': 'a',
             'b': 'b'
         }
-    }
+    },
+    'f': '0x123',
+    'g': 'longlonglonglonglong',
+    'h': 2,
 }
 g_src = container.DictContainer(g_src)
 
