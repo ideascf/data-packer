@@ -1,4 +1,6 @@
 # coding=utf-8
+import json
+
 from data_packer import err, DataPacker, container
 
 
@@ -41,5 +43,6 @@ def demo_run(fields, msg, dst=None):
     except err.DataPackerError as e:
         print '抛出了异常: ', type(e), e
 
+    # print json.dumps(dst, indent=4)
     print dst
 

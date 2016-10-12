@@ -98,24 +98,24 @@ fields = [
     OptionalField(src_name='c', dst_name='c'),
 
     CompositedField(
-        [
-            OptionalField('1', 'e.1'),
-            OptionalField('a', 'e.a'),
+        fields=[
+            OptionalField(src_name='1', dst_name='e.1'),
+            OptionalField(src_name='a', dst_name='e.a'),
             CompositedField(
-                [
-                    OptionalField('a', 'e.2.a'),
-                    OptionalField('b', 'e.2.b'),
+                fields=[
+                    OptionalField(src_name='a', dst_name='e.2.a'),
+                    OptionalField(src_name='b', dst_name='e.2.b'),
                 ],
-                container.DictContainer,
-                container.DictContainer({}),
-                '2',
-                '2'
+                src_container_cls=container.DictContainer,
+                dst_sub_container=container.DictContainer({}),
+                src_name='2',
+                dst_name='2'
             )
         ],
-        container.DictContainer,
-        container.DictContainer({}),
-        'e',
-        'e'
+        src_container_cls=container.DictContainer,
+        dst_sub_container=container.DictContainer({}),
+        src_name='e',
+        dst_name='e'
     )
 ]
 demo_run(fields, '组合字段')

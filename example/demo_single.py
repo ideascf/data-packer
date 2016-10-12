@@ -62,4 +62,3 @@ fields = [
     RequiredField('Not Exist', 'dst name')
 ]
 demo_run(fields, '无传入值时的RequiredField')
-
