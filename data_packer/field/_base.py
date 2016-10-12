@@ -129,18 +129,26 @@ class BaseField(_IField):
         if self._checker_list is None:  # No checker
             return True
 
-
-        if all(
-            checker.verify(self.src_name, self.dst_name, value)
-            for checker in self._checker_list
-        ):
-            return True
-        else:
-            raise err.DataPackerCheckError(
-                'Check field({}) FAILED! src_name({}), dst_name({})'.format(
-                    self, self.src_name, self.dst_name
-                )
-            )
+        try:
+            for ck in self._checker_list:
+                if ck.verify(self.src_name, self.dst_name, value):
+                    continue
+                else:
+                    raise err.DataPackerCheckError(
+                        '''
+                        Field({}) check FAILED!
+                        checker({})
+                        src_name({})
+                        dst_name({})
+                        value({})
+                        '''.format(
+                            self, ck, self.src_name, self.dst_name, value
+                        )
+                    )
+        except err.DataPackerError:
+            raise
+        except Exception as e:
+            raise err.DataPackerCheckError(str(e))
 
     def _do_convert(self, value):
         """
@@ -194,5 +202,5 @@ class BaseField(_IField):
                 for each in er
             ]):
                 raise err.DataPackerProgramError(errmsg)
-        else:
-            return er
+
+        return er
