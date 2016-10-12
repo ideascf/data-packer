@@ -3,11 +3,8 @@ from .field._base import _IField
 from .field.single import DefaultField, OptionalField, PlaceholderField, RequiredField
 from .field.multi import SelectorField, CompositedField
 
-from .checker import BaseChecker
-from .converter import BaseConverter
-from .container import DictContainer
-from .constant import *
-from .err import *
+from . import checker, converter, container, constant, err
+
 
 def run(src, dst, fields):
     """

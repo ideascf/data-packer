@@ -1,11 +1,11 @@
 # coding=utf-8
-from data_packer import OverwriteMode, RequiredField
+from data_packer import RequiredField, constant
 from common import demo_run
 
 #### 测试overwrite ####
 # 覆盖
 fields = [
-    RequiredField('b', 'exist_name', overwrite=OverwriteMode.OVERWRITE)
+    RequiredField('b', 'exist_name', overwrite=constant.OverwriteMode.OVERWRITE)
 ]
 dst = {
     'exist_name': 1,
@@ -15,7 +15,7 @@ print '\t AFTER dst: ', dst
 
 # 忽略
 fields = [
-    RequiredField('b', 'exist_name', overwrite=OverwriteMode.IGNORE)
+    RequiredField('b', 'exist_name', overwrite=constant.OverwriteMode.IGNORE)
 ]
 dst = {
     'exist_name': 1,
@@ -25,7 +25,7 @@ print '\t AFTER dst: ', dst
 
 # 抛异常
 fields = [
-    RequiredField('b', 'exist_name', overwrite=OverwriteMode.RAISE)
+    RequiredField('b', 'exist_name', overwrite=constant.OverwriteMode.RAISE)
 ]
 dst = {
     'exist_name': 1,

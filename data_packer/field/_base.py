@@ -76,11 +76,6 @@ class BaseField(_IField):
             self._set_value(value, dst)
         except err._DataPackerInterruptError:  # 内部流程中断异常，本次get操作失败
             return True
-        except Exception as e:
-            print e
-            print 'src: ', src
-            print 'dst: ', dst
-            print 'field: ', self
         else:
             return True
 

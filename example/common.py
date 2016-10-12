@@ -1,5 +1,5 @@
 # coding=utf-8
-from data_packer import DataPackerError, DataPacker, DictContainer
+from data_packer import err, DataPacker, container
 
 
 g_src = {
@@ -18,7 +18,7 @@ g_src = {
         }
     }
 }
-g_src = DictContainer(g_src)
+g_src = container.DictContainer(g_src)
 
 
 def demo_run(fields, msg, dst=None):
@@ -26,16 +26,16 @@ def demo_run(fields, msg, dst=None):
     print msg
 
     if dst is None:
-        dst = DictContainer({})
+        dst = container.DictContainer({})
     elif isinstance(dst, dict):
-        dst = DictContainer(dst)
+        dst = container.DictContainer(dst)
     else:
         raise TypeError('dst Must be dict or DictContainer')
 
     dp = DataPacker(fields)
     try:
         dp.run(g_src, dst)
-    except DataPackerError as e:
+    except err.DataPackerError as e:
         print '抛出了异常: ', type(e), e
 
     print dst

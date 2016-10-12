@@ -5,9 +5,7 @@
 
 from data_packer import OptionalField
 from data_packer import SelectorField, CompositedField
-from data_packer import DataPacker, OverwriteMode
-from data_packer import DataPackerError, DataPackerProgramError
-from data_packer import DictContainer
+from data_packer import err, container
 from common import demo_run
 
 
@@ -88,7 +86,7 @@ try:
         at_least=3,
         at_most=2,
     )
-except DataPackerProgramError as e:
+except err.DataPackerProgramError as e:
     print e
 
 
@@ -108,14 +106,14 @@ fields = [
                     OptionalField('a', 'e.2.a'),
                     OptionalField('b', 'e.2.b'),
                 ],
-                DictContainer,
-                DictContainer({}),
+                container.DictContainer,
+                container.DictContainer({}),
                 '2',
                 '2'
             )
         ],
-        DictContainer,
-        DictContainer({}),
+        container.DictContainer,
+        container.DictContainer({}),
         'e',
         'e'
     )
