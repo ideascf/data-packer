@@ -58,7 +58,7 @@ class SelectorField(_IField):
 
 
 class CompositedField(BaseField):
-    def __init__(self, fields, src_container_cls, dst_sub_container, src_name, dst_name, overwrite=constant.OverwriteMode.OVERWRITE):
+    def __init__(self, fields, src_container_cls, dst_sub_container, src_name, dst_name=None, overwrite=constant.OverwriteMode.OVERWRITE):
         """
 
         :param fields:

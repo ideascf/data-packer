@@ -20,7 +20,7 @@ class _IField(object):
         raise NotImplementedError('Implemented by yourself')
 
 class BaseField(_IField):
-    def __init__(self, src_name, dst_name, overwrite=constant.OverwriteMode.OVERWRITE,
+    def __init__(self, src_name, dst_name=None, overwrite=constant.OverwriteMode.OVERWRITE,
                  checker=None, converter=None):
         """
 
@@ -37,7 +37,7 @@ class BaseField(_IField):
         """
 
         self.src_name = src_name
-        self.dst_name = dst_name
+        self.dst_name = src_name if dst_name is None else dst_name
         self._overwrite = overwrite
 
         self._checker_list = self._valid_er(
@@ -63,7 +63,7 @@ class BaseField(_IField):
         :param src: 传入数据容器,默认为字典
         :param dst: 传出数据容器,默认为字典
         :type src: BaseContainer
-        :type dst: BaseContainer
+        :type dst: BaseContainer | None
         :return:
         :rtype: bool
         :raise: err.DataPackerError
@@ -108,6 +108,9 @@ class BaseField(_IField):
         :return:
         """
 
+        if dst is None:
+            raise err._DataPackerInterruptError('dst is None, ignore _set_value')
+
         if self.dst_name in dst:
             if self._overwrite == constant.OverwriteMode.IGNORE:
                 return
@@ -127,29 +130,17 @@ class BaseField(_IField):
         """
 
         if self._checker_list is None:  # No checker
-            return True
+            return
 
-        try:
-            for ck in self._checker_list:
-                if ck.verify(self.src_name, self.dst_name, value):
-                    continue
-                else:
-                    raise err.DataPackerCheckError(
-                        '''
-                        check FAILED!!!
-                        Field({})
-                        checker({})
-                        src_name({})
-                        dst_name({})
-                        value({})
-                        '''.format(
-                            self, ck, self.src_name, self.dst_name, value
-                        )
-                    )
-        except err.DataPackerError as e:
-            raise e
-        except Exception as e:
-            raise err.DataPackerCheckError(str(e))
+        for ck in self._checker_list:
+            try:
+                ck.verify(self.src_name, self.dst_name, value)
+            except err.DataPackerCheckError:
+                raise
+            except Exception as e:
+                raise err.DataPackerCheckError(
+                    self.src_name, self.dst_name, value, ck, str(e)
+                )
 
     def _do_convert(self, value):
         """

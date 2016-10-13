@@ -4,7 +4,7 @@ from ._base import BaseField
 from .. import err, constant
 
 class DefaultField(BaseField):
-    def __init__(self, default_value, src_name, dst_name, overwrite=constant.OverwriteMode.OVERWRITE,
+    def __init__(self, default_value, src_name, dst_name=None, overwrite=constant.OverwriteMode.OVERWRITE,
                   checker=None, converter=None):
         """
 
