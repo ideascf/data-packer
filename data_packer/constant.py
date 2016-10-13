@@ -15,3 +15,9 @@ class OP:
 
     IN = 20
     NOT_IN = 21
+
+
+class IP_VERSION:
+    BOTH = 0
+    IPV4 = 1
+    IPV6 = 2

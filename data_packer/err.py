@@ -37,7 +37,22 @@ class DataPackerCheckError(DataPackerError):
     """
     字段校验失败
     """
-    pass
+
+    def __init__(self, src_name, dst_name, value, ck, *args, **kwargs):
+        super(DataPackerCheckError, self).__init__(*args, **kwargs)
+        self.src_name = src_name
+        self.dst_name = dst_name
+        self.value = value
+        self.ck = ck
+
+    def __str__(self):
+        return 'check FAILED!!!' \
+               ' \n\t src_name: {}' \
+               ' \n\t dst_name: {}' \
+               ' \n\t value: {}' \
+               ' \n\t checker: {}'.format(
+            self.src_name, self.dst_name, self.value, self.ck
+        )
 
 
 #### 内部使用异常 ####
