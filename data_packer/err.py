@@ -17,13 +17,28 @@ class DataPackerDstKeyDupError(DataPackerError):
     """
     在填充目标字典时，key已经存在
     """
-    pass
+
+    def __init__(self, dst_name, *args, **kwargs):
+        super(DataPackerDstKeyDupError, self).__init__(*args, **kwargs)
+
+        self.dst_name = dst_name
+
+    def __str__(self):
+        return 'key({}) ALREADY in dst container!'.format(self.dst_name)
+
 
 class DataPackerSrcKeyNotFoundError(DataPackerError):
     """
     未在源字典中找到需要的字段
     """
-    pass
+
+    def __init__(self, src_name, *args, **kwargs):
+        super(DataPackerSrcKeyNotFoundError, self).__init__(*args, **kwargs)
+
+        self.src_name = src_name
+
+    def __str__(self):
+        return 'key({}) NOT foud in src container!'.format(self.src_name)
 
 
 class DataPackerLackFieldError(DataPackerError):

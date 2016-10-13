@@ -1,7 +1,7 @@
 # coding=utf-8
 import re
 from functools import partial
-from data_packer import err, constant
+from .. import err, constant
 from .. import err
 
 class BaseChecker(object):
@@ -51,7 +51,7 @@ class TypeChecker(BaseChecker):
         """
 
         :param tp:
-        :type tp: type(tp)
+        :type tp: type(tp) | tuple(type(tp))
         """
         super(TypeChecker, self).__init__()
         self.tp = tp

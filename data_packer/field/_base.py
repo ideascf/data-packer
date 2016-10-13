@@ -71,7 +71,7 @@ class BaseField(_IField):
 
         if not all([
             isinstance(src, BaseContainer),
-            isinstance(dst, BaseContainer),
+            isinstance(dst, (BaseContainer, type(None))),
         ]):
             raise err.DataPackerProgramError('src and dst must be BaseContainer')
 
@@ -96,7 +96,7 @@ class BaseField(_IField):
         try:
             return src[self.src_name]
         except KeyError:
-            raise err.DataPackerSrcKeyNotFoundError('key({}) Not found in src!'.format(self.src_name))
+            raise err.DataPackerSrcKeyNotFoundError(self.src_name)
 
     def _set_value(self, value, dst):
         """
@@ -115,7 +115,7 @@ class BaseField(_IField):
             if self._overwrite == constant.OverwriteMode.IGNORE:
                 return
             elif self._overwrite == constant.OverwriteMode.RAISE:
-                raise err.DataPackerDstKeyDupError('key({}) already exist in dst'.format(self.dst_name))
+                raise err.DataPackerDstKeyDupError(self.dst_name)
 
         dst[self.dst_name] = value
 
