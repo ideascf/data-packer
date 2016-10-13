@@ -23,23 +23,31 @@ g_src = {
     'g': 'longlonglonglonglong',
     'h': 2,
 }
-g_src = container.DictContainer(g_src)
 
 
-def demo_run(fields, msg, dst=None):
-    print ''
-    print msg
-
-    if dst is None:
-        dst = container.DictContainer({})
-    elif isinstance(dst, dict):
-        dst = container.DictContainer(dst)
+def valid_container(c):
+    if isinstance(c, dict):
+        c = container.DictContainer(c)
     else:
         raise TypeError('dst Must be dict or DictContainer')
 
+    return c
+
+def demo_run(fields, msg, dst=None, src=None):
+    print ''
+    print msg
+
+    if src is None:
+        src = g_src
+    if dst is None:
+        dst = {}
+
+    src = valid_container(src)
+    dst = valid_container(dst)
+
     dp = DataPacker(fields)
     try:
-        dp.run(g_src, dst)
+        dp.run(src, dst)
     except err.DataPackerError as e:
         print '抛出了异常: ', type(e), e
 

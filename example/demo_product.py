@@ -1,4 +1,5 @@
 # coding=utf-8
+import data_packer.checker._base
 from data_packer import RequiredField
 from data_packer import checker, DataPacker, container, converter
 import data_packer
@@ -7,8 +8,8 @@ busicd = RequiredField(
     src_name='busicd',
     dst_name='busicd',
     checker=[
-        checker.TypeChecker(str),
-        checker.LenChecker(min_len=6, max_len=6),
+        data_packer.checker._base.TypeChecker(str),
+        data_packer.checker._base.LenChecker(min_len=6, max_len=6),
     ],
     converter=converter.TypeConverter(int)
 )
@@ -16,14 +17,14 @@ businm = RequiredField(
     src_name='businm',
     dst_name='busixxx',
     checker=[
-        checker.TypeChecker(str),
+        data_packer.checker._base.TypeChecker(str),
     ]
 )
 yyy = RequiredField(
     src_name='yyy',
     dst_name='yyy',
     checker=[
-        checker.ReChecker(r'\d')
+        data_packer.checker._base.ReChecker(r'\d')
     ]
 )
 
