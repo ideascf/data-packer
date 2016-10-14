@@ -2,9 +2,7 @@
 import pytest
 
 from data_packer import checker
-
-def verify(ck, value):
-    ck.verify('', '', value)
+from _common import verify
 
 
 class TestTypeChecker:

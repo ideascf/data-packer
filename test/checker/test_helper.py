@@ -4,6 +4,7 @@ import logging
 from data_packer import checker
 from data_packer import err
 from data_packer.err import DataPackerCheckError
+from _common import verify
 
 
 log = logging.getLogger()
@@ -164,3 +165,23 @@ class TestURLChecker:
             with pytest.raises(DataPackerCheckError):
                 log.debug('now test url: %s', url)
                 checker.url_checker.verify('', '', url)
+
+
+class TestTextChecker:
+    def test_valid(self):
+        ck = checker.text_checker
+
+        verify(ck, 'hello')
+        verify(ck, '你好')
+        verify(ck, u'hello')
+        verify(ck, u'你好')
+
+    def test_invalid(self):
+        ck = checker.text_checker
+
+        invalid_values = [
+            1, object(), [], {}, (1,), 1.0
+        ]
+        for value in invalid_values:
+            with pytest.raises(err.DataPackerCheckError):
+                verify(ck, value)

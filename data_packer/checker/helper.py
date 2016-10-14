@@ -1,7 +1,7 @@
 # coding=utf-8
 import re
 from six.moves.urllib.parse import urlsplit, urlunsplit
-from ._base import BaseChecker, CheckerWrapper, ReChecker
+from ._base import BaseChecker, CheckerWrapper, ReChecker, TypeChecker
 from .. import constant, err
 from ..util import ip
 
@@ -176,3 +176,4 @@ url_checker = URLChecker()
 ipv4_checker = CheckerWrapper(lambda src_name,dst_name,value: ip.is_valid_ipv4(value))
 ipv6_checker = CheckerWrapper(lambda src_name,dst_name,value: ip.is_valid_ipv6(value))
 ipv46_checker = IPChecker(constant.IP_VERSION.BOTH)
+text_checker = TypeChecker((str, unicode))
