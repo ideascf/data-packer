@@ -2,6 +2,11 @@
 from .field import *
 from . import field, checker, converter, container, constant, err
 
+__title__ = 'data_packer'
+__version__ = '1.0.0'
+__author__ = 'chenfei'
+__license__ = 'MIT'
+
 
 def run(src, dst, fields):
     """
