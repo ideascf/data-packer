@@ -1,8 +1,8 @@
 # coding=utf-8
 import re
 from functools import partial
-from .. import err, constant
-from .. import err
+from data_packer import err, constant
+
 
 class BaseChecker(object):
 

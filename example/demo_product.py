@@ -1,7 +1,7 @@
 # coding=utf-8
+from __future__ import print_function
 import json
 
-import data_packer.checker._base
 from data_packer import RequiredField, CompositedField, OptionalField, DefaultField
 from data_packer import checker, DataPacker, container, converter
 from data_packer.checker import text_checker, LenChecker, TypeChecker
@@ -69,6 +69,6 @@ try:
     alipay_query = DataPacker(alipay_query_fields)
     alipay_query.run(container.DictContainer(q), container.DictContainer(d))
 except Exception as e:
-    print e
+    print(e)
 
-print json.dumps(d, indent=4)
+print(json.dumps(d, indent=4))

@@ -1,7 +1,6 @@
 # coding=utf-8
-
-from ._base import BaseField
-from .. import err, constant
+from data_packer.field._base import BaseField
+from data_packer import err, constant
 
 class DefaultField(BaseField):
     def __init__(self, default_value, src_name, dst_name=None, overwrite=constant.OverwriteMode.OVERWRITE,

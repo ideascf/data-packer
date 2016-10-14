@@ -1,8 +1,8 @@
 # coding=utf-8
-from ..checker import BaseChecker
-from ..converter import BaseConverter
-from ..container import BaseContainer
-from .. import err, constant
+from data_packer.checker import BaseChecker
+from data_packer.converter import BaseConverter
+from data_packer.container import BaseContainer
+from data_packer import err, constant
 
 
 class _IField(object):

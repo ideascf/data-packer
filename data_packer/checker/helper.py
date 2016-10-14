@@ -1,9 +1,10 @@
 # coding=utf-8
 import re
 from six.moves.urllib.parse import urlsplit, urlunsplit
-from ._base import BaseChecker, CheckerWrapper, ReChecker, TypeChecker
-from .. import constant, err
-from ..util import ip
+from data_packer.checker._base import BaseChecker, CheckerWrapper, ReChecker, TypeChecker
+from data_packer import err, constant
+from data_packer.util import ip
+
 
 class URLChecker(ReChecker):
     ul = '\u00a1-\uffff'  # unicode letters range (must be a unicode string, not a raw string)

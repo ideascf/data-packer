@@ -1,8 +1,8 @@
 # coding=utf-8
-from ._base import _IField, BaseField
-from .single import OptionalField
-from ..container import BaseContainer
-from .. import err, constant
+from data_packer.field._base import _IField, BaseField
+from data_packer.field.single import OptionalField
+from data_packer.container import BaseContainer
+from data_packer import err, constant
 
 class SelectorField(_IField):
     valid_field_cls = (OptionalField,)

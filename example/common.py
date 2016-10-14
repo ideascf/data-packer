@@ -1,4 +1,5 @@
 # coding=utf-8
+from __future__ import print_function
 import json
 
 from data_packer import err, DataPacker, container
@@ -34,8 +35,8 @@ def valid_container(c):
     return c
 
 def demo_run(fields, msg, dst=None, src=None):
-    print ''
-    print msg
+    print('')
+    print(msg)
 
     if src is None:
         src = g_src
@@ -49,9 +50,9 @@ def demo_run(fields, msg, dst=None, src=None):
     try:
         dp.run(src, dst)
     except err.DataPackerError as e:
-        print '抛出了异常: ', type(e), e
+        print('抛出了异常: ', type(e), e)
 
-    print json.dumps(dst.raw_data(), indent=4)
+    print(json.dumps(dst.raw_data(), indent=4))
 
     return dst
 

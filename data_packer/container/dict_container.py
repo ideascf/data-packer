@@ -1,5 +1,6 @@
 # coding=utf-8
-from ._base import BaseContainer
+from data_packer.container._base import BaseContainer
+
 
 class DictContainer(BaseContainer):
     def __init__(self, data):

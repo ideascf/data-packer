@@ -1,5 +1,5 @@
 # coding=utf-8
-from ._base import BaseConverter, TypeConverter
+from data_packer.converter._base import BaseConverter, TypeConverter
 
 
 class StrConverter(TypeConverter):

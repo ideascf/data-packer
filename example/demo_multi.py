@@ -2,7 +2,7 @@
 """
 复合字段的样例
 """
-
+from __future__ import print_function
 from data_packer import OptionalField
 from data_packer import SelectorField, CompositedField
 from data_packer import err, container
@@ -87,7 +87,7 @@ try:
         at_most=2,
     )
 except err.DataPackerProgramError as e:
-    print e
+    print(e)
 
 
 #############################################
