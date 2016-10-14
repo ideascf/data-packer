@@ -1,9 +1,6 @@
 # coding=utf-8
-from .field._base import _IField
-from .field.single import DefaultField, OptionalField, PlaceholderField, RequiredField
-from .field.multi import SelectorField, CompositedField
-
-from . import checker, converter, container, constant, err
+from .field import *
+from . import field, checker, converter, container, constant, err
 
 
 def run(src, dst, fields):

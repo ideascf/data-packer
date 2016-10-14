@@ -143,6 +143,11 @@ class ValueChecker(BaseChecker):
             )
 
 
+class NullChecker(BaseChecker):
+    def verify(self, src_name, dst_name, value):
+        pass
+
+
 class CheckerWrapper(BaseChecker):
     """
     校验函数包装器, 将校验函数包装为checker对象
