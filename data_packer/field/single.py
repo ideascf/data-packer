@@ -48,3 +48,73 @@ class PlaceholderField(BaseField):
 
 class RequiredField(BaseField):
     pass
+
+
+_unchanged = object()
+
+
+class MagicField(BaseField):
+    def r(self, src_name=_unchanged, dst_name=_unchanged, overwrite=_unchanged, checker=_unchanged, converter=_unchanged):
+        """
+        使用MagicField初始化时的值,创建RequiredField
+        :return:
+        :rtype: RequiredField
+        """
+
+        if src_name is _unchanged:
+            src_name = self.src_name
+        if dst_name is _unchanged:
+            dst_name = self.dst_name
+        if overwrite is _unchanged:
+            overwrite = self._overwrite
+        if checker is _unchanged:
+            checker = self._checker_list
+        if converter is _unchanged:
+            converter = self._converter_list
+
+        return RequiredField(src_name, dst_name, overwrite, checker, converter)
+
+    def o(self, src_name=_unchanged, dst_name=_unchanged, overwrite=_unchanged, checker=_unchanged, converter=_unchanged):
+        """
+        使用MagicField初始化时的值,创建OptionalField
+        :return:
+        :rtype: OptionalField
+        """
+
+        if src_name is _unchanged:
+            src_name = self.src_name
+        if dst_name is _unchanged:
+            dst_name = self.dst_name
+        if overwrite is _unchanged:
+            overwrite = self._overwrite
+        if checker is _unchanged:
+            checker = self._checker_list
+        if converter is _unchanged:
+            converter = self._converter_list
+
+        return OptionalField(src_name, dst_name, overwrite, checker, converter)
+
+    def d(self, default_value, src_name=_unchanged, dst_name=_unchanged, overwrite=_unchanged, checker=_unchanged, converter=_unchanged):
+        """
+        使用MagicField初始化时的值,创建DefaultField
+        :param default_value: 该字段的默认值
+        :return:
+        :rtype: DefaultField
+        """
+
+        if src_name is _unchanged:
+            src_name = self.src_name
+        if dst_name is _unchanged:
+            dst_name = self.dst_name
+        if overwrite is _unchanged:
+            overwrite = self._overwrite
+        if checker is _unchanged:
+            checker = self._checker_list
+        if converter is _unchanged:
+            converter = self._converter_list
+
+        return DefaultField(default_value, src_name, dst_name, overwrite, checker, converter)
+
+    def run(self, src, dst):
+        raise err.DataPackerProgramError("Don't call MagicField directly, call d()/o()/r() instead.")
+
