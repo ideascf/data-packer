@@ -58,13 +58,13 @@ class SelectorField(_IField):
 
 
 class CompositedField(BaseField):
-    def __init__(self, fields, src_container_cls, dst_sub_container, src_name, dst_name=None, overwrite=constant.OverwriteMode.OVERWRITE):
+    def __init__(self, fields, src_sub_container_cls, dst_sub_container, src_name, dst_name=None, overwrite=constant.OverwriteMode.OVERWRITE):
         """
 
         :param fields:
         :type fields:
-        :param src_container_cls:
-        :type src_container_cls: type(BaseContainer)
+        :param src_sub_container_cls:
+        :type src_sub_container_cls: type(BaseContainer)
         :param dst_sub_container:
         :type dst_sub_container: BaseContainer
         :param src_name:
@@ -77,7 +77,7 @@ class CompositedField(BaseField):
 
         super(CompositedField, self).__init__(src_name, dst_name, overwrite, None, None)
         self.fields = fields
-        self.src_container_cls = src_container_cls
+        self.src_sub_container_cls = src_sub_container_cls
         self.dst_sub_container = dst_sub_container
 
     def __str__(self):
@@ -88,7 +88,7 @@ class CompositedField(BaseField):
 
     def _get_value(self, src):
         src_raw_data = super(CompositedField, self)._get_value(src)
-        src_sub_container = self.src_container_cls(src_raw_data)
+        src_sub_container = self.src_sub_container_cls(src_raw_data)
 
         for field in self.fields:
             field.run(src_sub_container, self.dst_sub_container)

@@ -106,13 +106,13 @@ fields = [
                     OptionalField(src_name='a', dst_name='e.2.a'),
                     OptionalField(src_name='b', dst_name='e.2.b'),
                 ],
-                src_container_cls=container.DictContainer,
+                src_sub_container_cls=container.DictContainer,
                 dst_sub_container=container.DictContainer({}),
                 src_name='2',
                 dst_name='2'
             )
         ],
-        src_container_cls=container.DictContainer,
+        src_sub_container_cls=container.DictContainer,
         dst_sub_container=container.DictContainer({}),
         src_name='e',
         dst_name='e'

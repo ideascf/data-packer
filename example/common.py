@@ -51,6 +51,7 @@ def demo_run(fields, msg, dst=None, src=None):
     except err.DataPackerError as e:
         print '抛出了异常: ', type(e), e
 
-    # print json.dumps(dst, indent=4)
-    print dst
+    print json.dumps(dst.raw_data(), indent=4)
+
+    return dst
 
