@@ -3,6 +3,9 @@ from data_packer.field._base import BaseField
 from data_packer import err, constant
 
 class DefaultField(BaseField):
+    """
+    带默认值的字段
+    """
     def __init__(self, default_value, src_name, dst_name=None, overwrite=constant.OverwriteMode.OVERWRITE,
                   checker=None, converter=None):
         """
@@ -33,6 +36,9 @@ class DefaultField(BaseField):
 
 
 class OptionalField(BaseField):
+    """
+    可选字段
+    """
     def _get_value(self, src):
         try:
             return super(OptionalField, self)._get_value(src)
@@ -41,11 +47,17 @@ class OptionalField(BaseField):
 
 
 class PlaceholderField(BaseField):
+    """
+    占位字段
+    """
     def run(self, src, dst):
         return True
 
 
 class RequiredField(BaseField):
+    """
+    必需字段
+    """
     pass
 
 
@@ -113,6 +125,12 @@ class MagicField(BaseField):
             converter = self._converter_list
 
         return DefaultField(default_value, src_name, dst_name, overwrite, checker, converter)
+
+    def p(self, src_name=_unchanged):
+        if src_name is _unchanged:
+            src_name = self.src_name
+
+        return PlaceholderField(src_name)
 
     def run(self, src, dst):
         raise err.DataPackerProgramError("Don't call MagicField directly, call d()/o()/r() instead.")

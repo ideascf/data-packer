@@ -157,16 +157,6 @@ class BaseField(_IField):
 
             return value
 
-    def _do_interrupt(self, *args):
-        """
-        中断本field的获取, 不视为异常
-        :param args:
-        :type args: tuple
-        :return:
-        """
-
-        raise err._DataPackerInterruptError(*args)
-
     def _valid_er(self, er, cls, default, errmsg):
         """
         校验各种er, checker, converter
