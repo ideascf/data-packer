@@ -68,9 +68,9 @@ class CompositedField(BaseField):
         :param dst_sub_container:
         :type dst_sub_container: BaseContainer
         :param src_name:
-        :type src_name: str
+        :type src_name: object
         :param dst_name:
-        :type dst_name: str
+        :type dst_name: object
         :param overwrite:
         :type overwrite:
         """

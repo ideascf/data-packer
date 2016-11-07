@@ -16,9 +16,9 @@ class BaseChecker(object):
         """
         检查该字段的值是否合法
         :param src_name: 字段在传入容器中的名称
-        :type src_name: str
+        :type src_name: object
         :param dst_name: 字段再传出容器中的名称
-        :type dst_name: str
+        :type dst_name: object
         :param value: 从传入容器中取出的该字段的值
         :type value:
         :raise: err.DataPackerCheckError

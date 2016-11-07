@@ -17,8 +17,8 @@ class DefaultField(BaseField):
         :param checker: 字段的校验器，校验该字段的值是否合法
         :param converter: 字段转换器，按需转换该字段的值
         :type default_value:
-        :type src_name: str
-        :type dst_name: str
+        :type src_name: object
+        :type dst_name: object
         :type overwrite: constant.OverwriteMode
         :type checker: BaseChecker
         :type converter: BaseConverter
