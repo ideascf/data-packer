@@ -1,0 +1,3 @@
+[submodule "example/example_py8583/py8583"]
+	path = example/example_py8583/py8583
+	url = https://github.com/ideascf/py8583.git
